@@ -288,7 +288,7 @@ fs1	ph4	name	if ((sym = FindSymbol(name)) != NULL) {
 	jsr	FindSymbol
 	sta	sym
 	stx	sym+2
-	ora	sym
+	ora	sym+2
 	beq	fs5
 	ldy	#symFile	  if (sym->symFile == fileNumber)
 	lda	[sym],Y
@@ -1392,7 +1392,7 @@ fs1	ph4	sp	if ((r0 = FindSymbol(sp)) != NULL) {
 	jsr	FindSymbol
 	sta	r0
 	stx	r0+2
-	ora	r0
+	ora	r0+2
 	beq	fs5
 	ldy	#symFile	  if (r0->symFile == fileNumber)
 	lda	[r0],Y
