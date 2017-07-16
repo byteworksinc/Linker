@@ -104,7 +104,7 @@ lb1	pea	0	allocate the memory
 	jsr	MLalloc
 	sta	out
 	stx	out+2
-	ora	out
+	ora	out+2
 	beq	lb7
 	lda	flags	if flags then
 	beq	lb2
