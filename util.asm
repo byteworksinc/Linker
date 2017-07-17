@@ -382,7 +382,7 @@ lb4	ret
 *
 *  1: Could not open file <fname>
 *  2: Must be an object file: <fname>
-*  3: Linker version misatch
+*  3: Linker version mismatch
 *  4: Illegal header value in <fname>
 *  5: Out of memory
 *  6: File read error: <fname>
@@ -435,7 +435,7 @@ msg	dc	a'e1,e2,e3,e4,e5,e6,e7,e8,e9,e10,e11,e12,e13,e14,e15'
 
 e1	dos	'Could not open file '
 e2	dos	'Must be an object file: '
-e3	dos	'Linker version misatch'
+e3	dos	'Linker version mismatch'
 e4	dos	'Illegal header value in '
 e5	dos	'Out of memory'
 e6	dos	'File read error: '
