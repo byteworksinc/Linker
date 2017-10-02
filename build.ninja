@@ -1,0 +1,50 @@
+# ninja build file.
+
+builddir = obj
+o = obj
+
+
+rule compile
+  command = iix compile $in keep=$o/$keep
+  description = build $out
+
+rule link
+  command = iix link $orca-in keep=$out
+  description = link $out
+
+
+
+
+build linker : link $o/exp.a $o/exp.root $o/file.a $o/file.root $
+  $o/linker.a $o/linker.root $o/out.a $o/out.root $o/pass1.a $o/pass1.root $
+  $o/pass2.a $o/pass2.root $o/seg.a $o/seg.root $o/symbol.a $o/symbol.root $
+  $o/util.a $o/util.root
+  orca-in = $o/linker $o/util $o/file $o/pass1 $o/pass2 $o/seg $
+  $o/symbol $o/exp $o/out
+
+
+build $o/exp.a $o/exp.root : compile exp.asm | exp.mac directpage
+  keep = exp
+build $o/file.a $o/file.root : compile file.asm | file.mac directpage
+  keep = file
+build $o/linker.a $o/linker.root : compile linker.asm | linker.mac directpage
+  keep = linker
+build $o/out.a $o/out.root : compile out.asm | out.mac directpage
+  keep = out
+build $o/pass1.a $o/pass1.root : compile pass1.asm | pass1.mac directpage
+  keep = pass1
+build $o/pass2.a $o/pass2.root : compile pass2.asm | pass2.mac directpage
+  keep = pass2
+build $o/seg.a $o/seg.root : compile seg.asm | seg.mac directpage
+  keep = seg
+build $o/symbol.a $o/symbol.root : compile symbol.asm | symbol.mac directpage
+  keep = symbol
+build $o/util.a $o/util.root : compile util.asm | util.mac directpage
+  keep = util
+
+
+default linker
+
+build all : phony linker
+
+# eof
