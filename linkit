@@ -1,1 +1,6 @@
-echo set auxtype $DB01set auxtype $DB01set list        obj/linker obj/util obj/file obj/pass1 obj/pass2 obj/seg obj/symbol obj/exp obj/outecho link {Parameters} {list} 13/SysLib keep=obj/linkerlink {Parameters} {list} 13/SysLib keep=obj/linker
+echo set auxtype $DB01
+set auxtype $DB01
+
+set list        obj/linker obj/util obj/file obj/pass1 obj/pass2 obj/seg obj/symbol obj/exp obj/out
+echo link {Parameters} {list} 13/SysLib keep=obj/linker
+link {Parameters} {list} 13/SysLib keep=obj/linker

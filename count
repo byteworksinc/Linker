@@ -1,1 +1,11 @@
-set list        directPage linker.asmset list {list} util.asmset list {list} file.asmset list {list} pass1.asmset list {list} pass2.asmset list {list} seg.asmset list {list} symbol.asmset list {list} exp.asmset list {list} out.asmwc {list}
+set list        directPage linker.asm
+set list {list} util.asm
+set list {list} file.asm
+set list {list} pass1.asm
+set list {list} pass2.asm
+set list {list} seg.asm
+set list {list} symbol.asm
+set list {list} exp.asm
+set list {list} out.asm
+
+wc {list}

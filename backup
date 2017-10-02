@@ -1,1 +1,27 @@
-if "{#}" != "1"   echo Form: backup [day]   exit 65535endset dest /library/mike/{1}/linkerset list        backup count directpage linker.notes linkit make smacset list {list} exp.asm exp.macset list {list} file.asm file.macset list {list} linker.asm linker.mac linker.rezset list {list} out.asm out.macset list {list} pass1.asm pass1.macset list {list} pass2.asm pass2.macset list {list} seg.asm seg.macset list {list} symbol.asm symbol.macset list {list} exp.asm exp.macset list {list} util.asm util.macunset exitcreate {dest} >.null >&.nullfor i in {list}   newer {dest}/{i} {i}   if {Status} != 0      copy -c {i} {dest}/{i}   endend
+if "{#}" != "1"
+   echo Form: backup [day]
+   exit 65535
+end
+
+set dest /library/mike/{1}/linker
+
+set list        backup count directpage linker.notes linkit make smac
+set list {list} exp.asm exp.mac
+set list {list} file.asm file.mac
+set list {list} linker.asm linker.mac linker.rez
+set list {list} out.asm out.mac
+set list {list} pass1.asm pass1.mac
+set list {list} pass2.asm pass2.mac
+set list {list} seg.asm seg.mac
+set list {list} symbol.asm symbol.mac
+set list {list} exp.asm exp.mac
+set list {list} util.asm util.mac
+
+unset exit
+create {dest} >.null >&.null
+for i in {list}
+   newer {dest}/{i} {i}
+   if {Status} != 0
+      copy -c {i} {dest}/{i}
+   end
+end

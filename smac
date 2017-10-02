@@ -1,1 +1,202 @@
-         macro&lab     da    &op&lab     dc    a3"&op"         dc    i1'0'         mend         macro&lab     cmpl  &n1,&n2&lab     lda   2+&n1         cmp   2+&n2         bne   ~&syscnt         lda   &n1         cmp   &n2~&syscnt anop         mend         MACRO&LAB     DOS   &ADR&LAB     DC    I"L:~&SYSNAME&SYSCNT"~&SYSNAME&SYSCNT DC C"&ADR"         MEND         MACRO&LAB     MOVE4 &F,&T&LAB     ~SETM         LDA   2+&F         STA   2+&T         LDA   &F         STA   &T         ~RESTM         MEND         macro&lab     sub   &parms,&work&lab     anop         aif   c:&work,.a         lclc  &work&work    setc  0.a         gbla  &totallen         gbla  &worklen&worklen seta  &work&totallen seta 0         aif   c:&parms=0,.e         lclc  &len         lclc  &p         lcla  &i&i       seta  c:&parms.b&p       setc  &parms(&i)&len     amid  &p,2,1         aif   "&len"=":",.c&len     amid  &p,1,2&p       amid  &p,4,l:&p-3         ago   .d.c&len     amid  &p,1,1&p       amid  &p,3,l:&p-2.d&p       equ   &totallen+3+&work&totallen seta &totallen+&len&i       seta  &i-1         aif   &i,^b.e         tsc         aif   &work=0,.f         sec         sbc   #&work         tcs.f         phd         tcd         mend         macro&lab     ret   &r&lab     anop         lclc  &len         aif   c:&r,.a         lclc  &r&r       setc  0&len     setc  0         ago   .h.a&len     amid  &r,2,1         aif   "&len"=":",.b&len     amid  &r,1,2&r       amid  &r,4,l:&r-3         ago   .c.b&len     amid  &r,1,1&r       amid  &r,3,l:&r-2.c         aif   &len<>2,.d         ldy   &r         ago   .h.d         aif   &len<>4,.e         ldx   &r+2         ldy   &r         ago   .h.e         aif   &len<>10,.g         ldy   #&r         ldx   #^&r         ago   .h.g         mnote 'Not a valid return length',16         mexit.h         aif   &totallen=0,.i         lda   &worklen+1         sta   &worklen+&totallen+1.i         pld         tsc         clc         adc   #&worklen+&totallen         tcs         aif   &len=0,.j         tya.j         rts         mend         MACRO&LAB     MOVE  &AD1,&AD2,&LEN&LAB     ANOP         LCLB  &LA         LCLB  &LI         LCLC  &C         AIF   C:&LEN,.A1         LCLC  &LEN&LEN     SETC  #2.A1&LA      SETB  S:LONGA&LI      SETB  S:LONGI         AIF   S:LONGA.AND.S:LONGI,.A         REP   #32*(.NOT.&LA)+16*(.NOT.&LI)         LONGA ON         LONGI ON.A&C       AMID  &LEN,1,1         AIF   "&C"<>"#",.D&C       AMID  &LEN,2,L:&LEN-1         AIF   &C<>2,.D&C       AMID  &AD1,1,1         AIF   "&C"<>"{",.B&AD1     AMID  &AD1,2,L:&AD1-2&AD1     SETC  (&AD1).B         LDA   &AD1&C       AMID  &AD2,1,1         AIF   "&C"<>"{",.C&AD2     AMID  &AD2,2,L:&AD2-2&AD2     SETC  (&AD2).C         STA   &AD2         AGO   .G.D&C       AMID  &AD1,1,1         AIF   "&C"="#",.F&C       AMID  &LEN,1,1         AIF   "&C"<>"{",.E&LEN     AMID  &LEN,2,L:&LEN-2&LEN     SETC  (&LEN).E&C       AMID  &LEN,1,1         AIF   "&C"="#",.E1         LDA   &LEN         DEC   A         AGO   .E2.E1         LDA   &LEN-1.E2         LDX   #&AD1         LDY   #&AD2         MVN   &AD1,&AD2         AGO   .G.F         LDA   &AD1         STA   &AD2         LDA   &LEN-2         LDX   #&AD2         LDY   #&AD2+1         MVN   &AD2,&AD2.G         AIF   (&LA+&LI)=2,.I         SEP   #32*(.NOT.&LA)+16*(.NOT.&LI)         AIF   &LA,.H         LONGA OFF.H         AIF   &LI,.I         LONGI OFF.I         MEND
+         macro
+&lab     da    &op
+&lab     dc    a3"&op"
+         dc    i1'0'
+         mend
+
+
+         macro
+&lab     cmpl  &n1,&n2
+&lab     lda   2+&n1
+         cmp   2+&n2
+         bne   ~&syscnt
+         lda   &n1
+         cmp   &n2
+~&syscnt anop
+         mend
+
+
+         MACRO
+&LAB     DOS   &ADR
+&LAB     DC    I"L:~&SYSNAME&SYSCNT"
+~&SYSNAME&SYSCNT DC C"&ADR"
+         MEND
+
+
+         MACRO
+&LAB     MOVE4 &F,&T
+&LAB     ~SETM
+         LDA   2+&F
+         STA   2+&T
+         LDA   &F
+         STA   &T
+         ~RESTM
+         MEND
+
+
+         macro
+&lab     sub   &parms,&work
+&lab     anop
+         aif   c:&work,.a
+         lclc  &work
+&work    setc  0
+.a
+         gbla  &totallen
+         gbla  &worklen
+&worklen seta  &work
+&totallen seta 0
+         aif   c:&parms=0,.e
+         lclc  &len
+         lclc  &p
+         lcla  &i
+&i       seta  c:&parms
+.b
+&p       setc  &parms(&i)
+&len     amid  &p,2,1
+         aif   "&len"=":",.c
+&len     amid  &p,1,2
+&p       amid  &p,4,l:&p-3
+         ago   .d
+.c
+&len     amid  &p,1,1
+&p       amid  &p,3,l:&p-2
+.d
+&p       equ   &totallen+3+&work
+&totallen seta &totallen+&len
+&i       seta  &i-1
+         aif   &i,^b
+.e
+         tsc
+         aif   &work=0,.f
+         sec
+         sbc   #&work
+         tcs
+.f
+         phd
+         tcd
+         mend
+
+
+         macro
+&lab     ret   &r
+&lab     anop
+         lclc  &len
+         aif   c:&r,.a
+         lclc  &r
+&r       setc  0
+&len     setc  0
+         ago   .h
+.a
+&len     amid  &r,2,1
+         aif   "&len"=":",.b
+&len     amid  &r,1,2
+&r       amid  &r,4,l:&r-3
+         ago   .c
+.b
+&len     amid  &r,1,1
+&r       amid  &r,3,l:&r-2
+.c
+         aif   &len<>2,.d
+         ldy   &r
+         ago   .h
+.d
+         aif   &len<>4,.e
+         ldx   &r+2
+         ldy   &r
+         ago   .h
+.e
+         aif   &len<>10,.g
+         ldy   #&r
+         ldx   #^&r
+         ago   .h
+.g
+         mnote 'Not a valid return length',16
+         mexit
+.h
+         aif   &totallen=0,.i
+         lda   &worklen+1
+         sta   &worklen+&totallen+1
+.i
+         pld
+         tsc
+         clc
+         adc   #&worklen+&totallen
+         tcs
+         aif   &len=0,.j
+         tya
+.j
+         rts
+         mend
+
+
+         MACRO
+&LAB     MOVE  &AD1,&AD2,&LEN
+&LAB     ANOP
+         LCLB  &LA
+         LCLB  &LI
+         LCLC  &C
+         AIF   C:&LEN,.A1
+         LCLC  &LEN
+&LEN     SETC  #2
+.A1
+&LA      SETB  S:LONGA
+&LI      SETB  S:LONGI
+         AIF   S:LONGA.AND.S:LONGI,.A
+         REP   #32*(.NOT.&LA)+16*(.NOT.&LI)
+         LONGA ON
+         LONGI ON
+.A
+&C       AMID  &LEN,1,1
+         AIF   "&C"<>"#",.D
+&C       AMID  &LEN,2,L:&LEN-1
+         AIF   &C<>2,.D
+&C       AMID  &AD1,1,1
+         AIF   "&C"<>"{",.B
+&AD1     AMID  &AD1,2,L:&AD1-2
+&AD1     SETC  (&AD1)
+.B
+         LDA   &AD1
+&C       AMID  &AD2,1,1
+         AIF   "&C"<>"{",.C
+&AD2     AMID  &AD2,2,L:&AD2-2
+&AD2     SETC  (&AD2)
+.C
+         STA   &AD2
+         AGO   .G
+.D
+&C       AMID  &AD1,1,1
+         AIF   "&C"="#",.F
+&C       AMID  &LEN,1,1
+         AIF   "&C"<>"{",.E
+&LEN     AMID  &LEN,2,L:&LEN-2
+&LEN     SETC  (&LEN)
+.E
+&C       AMID  &LEN,1,1
+         AIF   "&C"="#",.E1
+         LDA   &LEN
+         DEC   A
+         AGO   .E2
+.E1
+         LDA   &LEN-1
+.E2
+         LDX   #&AD1
+         LDY   #&AD2
+         MVN   &AD1,&AD2
+         AGO   .G
+.F
+         LDA   &AD1
+         STA   &AD2
+         LDA   &LEN-2
+         LDX   #&AD2
+         LDY   #&AD2+1
+         MVN   &AD2,&AD2
+.G
+         AIF   (&LA+&LI)=2,.I
+         SEP   #32*(.NOT.&LA)+16*(.NOT.&LI)
+         AIF   &LA,.H
+         LONGA OFF
+.H
+         AIF   &LI,.I
+         LONGI OFF
+.I
+         MEND

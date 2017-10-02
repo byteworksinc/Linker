@@ -1,1 +1,451 @@
- macro&lab cmpl &n1,&n2&lab lda 2+&n1 cmp 2+&n2 bne ~&syscnt lda &n1 cmp &n2~&syscnt anop mend MACRO&LAB MOVE4 &F,&T&LAB ~SETM LDA 2+&F STA 2+&T LDA &F STA &T ~RESTM MEND macro&l puts &n1,&f1,&cr,&errout&l ~setm lclc &c&c amid "&n1",1,1 aif "&c"<>"#",.c aif l:&n1>127,.a bra ~&SYSCNT ago .b.a brl ~&SYSCNT.b&n1 amid "&n1",2,l:&n1-1~l&SYSCNT dc i1"l:~s&SYSCNT"~s&SYSCNT dc c&n1~&SYSCNT anop&n1 setc ~l&SYSCNT-1.c ~pusha &n1 aif c:&f1,.c1 pea 0 ago .c2.c1 ph2 &f1.c2 ph2 #c:&cr ph2 #c:&errout jsl ~puts ~restm mend macro&l putc &n1,&f1,&cr,&errout lclc &f1&f1 setc #0.a&l ~setm ph2 &n1 aif c:&f1,.a pea 0 ago .b.a ph2 &f1.b ph2 #c:&cr ph2 #c:&errout jsl ~putc ~restm mend macro&l putcr &errout&l ~setm pea $0D aif c:&errout,.a jsl SysCharOut ~restm mexit.a jsl SysCharErrout ~restm mend macro&l add4 &m1,&m2,&m3 lclb &yistwo lclc &c&l ~setm aif c:&m3,.a&c amid "&m2",1,1 aif "&c"<>"#",.a&c amid "&m1",1,1 aif "&c"="{",.a aif "&c"="[",.a&c amid "&m2",2,l:&m2-1 aif &c>=65536,.a clc ~lda &m1 ~op adc,&m2 ~sta &m1 bcc ~&SYSCNT ~op.h inc,&m1~&SYSCNT anop ago .c.a aif c:&m3,.b lclc &m3&m3 setc &m1.b clc ~lda &m1 ~op adc,&m2 ~sta &m3 ~lda.h &m1 ~op.h adc,&m2 ~sta.h &m3.c ~restm mend macro&l sub4 &m1,&m2,&m3 lclb &yistwo lclc &c&l ~setm aif c:&m3,.a&c amid "&m2",1,1 aif "&c"<>"#",.a&c amid "&m1",1,1 aif "&c"="{",.a aif "&c"="[",.a&c amid "&m2",2,l:&m2-1 aif &c>=65536,.a sec ~lda &m1 ~op sbc,&m2 ~sta &m1 bcs ~&SYSCNT ~op.h dec,&m1~&SYSCNT anop ago .c.a aif c:&m3,.b lclc &m3&m3 setc &m1.b sec ~lda &m1 ~op sbc,&m2 ~sta &m3 ~lda.h &m1 ~op.h sbc,&m2 ~sta.h &m3.c ~restm mend macro&l dec4 &a&l ~setm lda &a bne ~&SYSCNT dec 2+&a~&SYSCNT dec &a ~restm mend macro&l inc4 &a&l ~setm inc &a bne ~&SYSCNT inc 2+&a~&SYSCNT ~restm mend macro&l ph2 &n1&l anop aif "&n1"="*",.f lclc &c&c amid &n1,1,1 aif "&c"="#",.d aif s:longa=1,.a rep #%00100000.a aif "&c"<>"{",.b&c amid &n1,l:&n1,1 aif "&c"<>"}",.g&n1 amid &n1,2,l:&n1-2 lda (&n1) pha ago .e.b aif "&c"="<",.c lda &n1 pha ago .e.c&n1 amid &n1,2,l:&n1-1 pei &n1 ago .e.d&n1 amid &n1,2,l:&n1-1 pea &n1 ago .f.e aif s:longa=1,.f sep #%00100000.f mexit.g mnote "Missing closing '}'",16 mend macro&l ph4 &n1&l anop aif "&n1"="*",.f lclc &c&c amid &n1,1,1 aif "&c"="#",.d aif s:longa=1,.a rep #%00100000.a aif "&c"<>"{",.b&c amid &n1,l:&n1,1 aif "&c"<>"}",.g&n1 amid &n1,2,l:&n1-2 ldy #2 lda (&n1),y pha lda (&n1) pha ago .e.b aif "&c"<>"[",.c ldy #2 lda &n1,y pha lda &n1 pha ago .e.c aif "&c"<>"<",.c1&n1 amid &n1,2,l:&n1-1 pei &n1+2 pei &n1 ago .e.c1 lda &n1+2 pha lda &n1 pha ago .e.d&n1 amid &n1,2,l:&n1-1 pea +(&n1)|-16 pea &n1 ago .f.e aif s:longa=1,.f sep #%00100000.f mexit.g mnote "Missing closing '}'",16 mend macro&l ~lda &op lclc &c&c amid "&op",1,1 aif "&c"<>"{",.b&c amid "&op",l:&op,1 aif "&c"="}",.a mnote "Missing closing '}'",2&op setc &op}.a&op amid "&op",2,l:&op-2&op setc (&op).b&l lda &op mend macro&l ~lda.h &op&l anop lclc &c&c amid "&op",1,1 aif "&c"="[",.b aif "&c"<>"{",.d&c amid "&op",l:&op,1 aif "&c"="}",.a mnote "Missing closing '}'",2&op setc &op}.a&op amid "&op",2,l:&op-2&op setc (&op).b aif &yistwo,.c&yistwo setb 1 ldy #2.c&op setc "&op,y" lda &op mexit.d aif "&c"<>"#",.e&op amid "&op",2,l:&op-1&op setc "#^&op" lda &op mexit.e lda 2+&op mend macro&l ~op &opc,&op lclc &c&c amid "&op",1,1 aif "&c"<>"{",.b&c amid "&op",l:&op,1 aif "&c"="}",.a mnote "Missing closing '}'",2&op setc &op}.a&op amid "&op",2,l:&op-2&op setc (&op).b&l &opc &op mend macro&l ~op.h &opc,&op&l anop lclc &c&c amid "&op",1,1 aif "&c"="[",.b aif "&c"<>"{",.d&c amid "&op",l:&op,1 aif "&c"="}",.a mnote "Missing closing '}'",2&op setc &op}.a&op amid "&op",2,l:&op-2&op setc (&op).b aif &yistwo,.c&yistwo setb 1 ldy #2.c&op setc "&op,y" &opc &op mexit.d aif "&c"<>"#",.e&op amid "&op",2,l:&op-1&op setc "#^&op" &opc &op mexit.e &opc 2+&op mend macro&l ~pusha &n1 lclc &c&l anop&c amid &n1,1,1 aif "&c"<>"{",.b&c amid &n1,l:&n1,1 aif "&c"<>"}",.g&n1 amid &n1,2,l:&n1-2 sep #$20 longa off lda #0 pha rep #$20 longa on phk lda &n1 pha mexit.b aif "&c"<>"[",.c&n1 amid &n1,2,l:&n1-2 lda &n1+2 pha lda &n1 pha mexit.c pea +(&n1)|-16 pea &n1 mexit.g mnote "Missing closing '}'",16 mend macro&l ~restm&l anop aif (&~la+&~li)=2,.i sep #32*(.not.&~la)+16*(.not.&~li) aif &~la,.h longa off.h aif &~li,.i longi off.i mend macro&l ~setm&l anop aif c:&~la,.b gblb &~la gblb &~li.b&~la setb s:longa&~li setb s:longi aif s:longa.and.s:longi,.a rep #32*(.not.&~la)+16*(.not.&~li) longa on longi on.a mend macro&l ~sta &op lclc &c&c amid "&op",1,1 aif "&c"<>"{",.b&c amid "&op",l:&op,1 aif "&c"="}",.a mnote "Missing closing '}'",2&op setc &op}.a&op amid "&op",2,l:&op-2&op setc (&op).b&l sta &op mend macro&l ~sta.h &op&l anop lclc &c&c amid "&op",1,1 aif "&c"="[",.b aif "&c"<>"{",.d&c amid "&op",l:&op,1 aif "&c"="}",.a mnote "Missing closing '}'",2&op setc &op}.a&op amid "&op",2,l:&op-2&op setc (&op).b aif &yistwo,.c&yistwo setb 1 ldy #2.c&op setc "&op,y" sta &op mexit.d sta 2+&op mend
+ macro
+&lab cmpl &n1,&n2
+&lab lda 2+&n1
+ cmp 2+&n2
+ bne ~&syscnt
+ lda &n1
+ cmp &n2
+~&syscnt anop
+ mend
+ MACRO
+&LAB MOVE4 &F,&T
+&LAB ~SETM
+ LDA 2+&F
+ STA 2+&T
+ LDA &F
+ STA &T
+ ~RESTM
+ MEND
+ macro
+&l puts &n1,&f1,&cr,&errout
+&l ~setm
+ lclc &c
+&c amid "&n1",1,1
+ aif "&c"<>"#",.c
+ aif l:&n1>127,.a
+ bra ~&SYSCNT
+ ago .b
+.a
+ brl ~&SYSCNT
+.b
+&n1 amid "&n1",2,l:&n1-1
+~l&SYSCNT dc i1"l:~s&SYSCNT"
+~s&SYSCNT dc c&n1
+~&SYSCNT anop
+&n1 setc ~l&SYSCNT-1
+.c
+ ~pusha &n1
+ aif c:&f1,.c1
+ pea 0
+ ago .c2
+.c1
+ ph2 &f1
+.c2
+ ph2 #c:&cr
+ ph2 #c:&errout
+ jsl ~puts
+ ~restm
+ mend
+ macro
+&l putc &n1,&f1,&cr,&errout
+ lclc &f1
+&f1 setc #0
+.a
+&l ~setm
+ ph2 &n1
+ aif c:&f1,.a
+ pea 0
+ ago .b
+.a
+ ph2 &f1
+.b
+ ph2 #c:&cr
+ ph2 #c:&errout
+ jsl ~putc
+ ~restm
+ mend
+ macro
+&l putcr &errout
+&l ~setm
+ pea $0D
+ aif c:&errout,.a
+ jsl SysCharOut
+ ~restm
+ mexit
+.a
+ jsl SysCharErrout
+ ~restm
+ mend
+ macro
+&l add4 &m1,&m2,&m3
+ lclb &yistwo
+ lclc &c
+&l ~setm
+ aif c:&m3,.a
+&c amid "&m2",1,1
+ aif "&c"<>"#",.a
+&c amid "&m1",1,1
+ aif "&c"="{",.a
+ aif "&c"="[",.a
+&c amid "&m2",2,l:&m2-1
+ aif &c>=65536,.a
+ clc
+ ~lda &m1
+ ~op adc,&m2
+ ~sta &m1
+ bcc ~&SYSCNT
+ ~op.h inc,&m1
+~&SYSCNT anop
+ ago .c
+.a
+ aif c:&m3,.b
+ lclc &m3
+&m3 setc &m1
+.b
+ clc
+ ~lda &m1
+ ~op adc,&m2
+ ~sta &m3
+ ~lda.h &m1
+ ~op.h adc,&m2
+ ~sta.h &m3
+.c
+ ~restm
+ mend
+ macro
+&l sub4 &m1,&m2,&m3
+ lclb &yistwo
+ lclc &c
+&l ~setm
+ aif c:&m3,.a
+&c amid "&m2",1,1
+ aif "&c"<>"#",.a
+&c amid "&m1",1,1
+ aif "&c"="{",.a
+ aif "&c"="[",.a
+&c amid "&m2",2,l:&m2-1
+ aif &c>=65536,.a
+ sec
+ ~lda &m1
+ ~op sbc,&m2
+ ~sta &m1
+ bcs ~&SYSCNT
+ ~op.h dec,&m1
+~&SYSCNT anop
+ ago .c
+.a
+ aif c:&m3,.b
+ lclc &m3
+&m3 setc &m1
+.b
+ sec
+ ~lda &m1
+ ~op sbc,&m2
+ ~sta &m3
+ ~lda.h &m1
+ ~op.h sbc,&m2
+ ~sta.h &m3
+.c
+ ~restm
+ mend
+ macro
+&l dec4 &a
+&l ~setm
+ lda &a
+ bne ~&SYSCNT
+ dec 2+&a
+~&SYSCNT dec &a
+ ~restm
+ mend
+ macro
+&l inc4 &a
+&l ~setm
+ inc &a
+ bne ~&SYSCNT
+ inc 2+&a
+~&SYSCNT ~restm
+ mend
+ macro
+&l ph2 &n1
+&l anop
+ aif "&n1"="*",.f
+ lclc &c
+&c amid &n1,1,1
+ aif "&c"="#",.d
+ aif s:longa=1,.a
+ rep #%00100000
+.a
+ aif "&c"<>"{",.b
+&c amid &n1,l:&n1,1
+ aif "&c"<>"}",.g
+&n1 amid &n1,2,l:&n1-2
+ lda (&n1)
+ pha
+ ago .e
+.b
+ aif "&c"="<",.c
+ lda &n1
+ pha
+ ago .e
+.c
+&n1 amid &n1,2,l:&n1-1
+ pei &n1
+ ago .e
+.d
+&n1 amid &n1,2,l:&n1-1
+ pea &n1
+ ago .f
+.e
+ aif s:longa=1,.f
+ sep #%00100000
+.f
+ mexit
+.g
+ mnote "Missing closing '}'",16
+ mend
+ macro
+&l ph4 &n1
+&l anop
+ aif "&n1"="*",.f
+ lclc &c
+&c amid &n1,1,1
+ aif "&c"="#",.d
+ aif s:longa=1,.a
+ rep #%00100000
+.a
+ aif "&c"<>"{",.b
+&c amid &n1,l:&n1,1
+ aif "&c"<>"}",.g
+&n1 amid &n1,2,l:&n1-2
+ ldy #2
+ lda (&n1),y
+ pha
+ lda (&n1)
+ pha
+ ago .e
+.b
+ aif "&c"<>"[",.c
+ ldy #2
+ lda &n1,y
+ pha
+ lda &n1
+ pha
+ ago .e
+.c
+ aif "&c"<>"<",.c1
+&n1 amid &n1,2,l:&n1-1
+ pei &n1+2
+ pei &n1
+ ago .e
+.c1
+ lda &n1+2
+ pha
+ lda &n1
+ pha
+ ago .e
+.d
+&n1 amid &n1,2,l:&n1-1
+ pea +(&n1)|-16
+ pea &n1
+ ago .f
+.e
+ aif s:longa=1,.f
+ sep #%00100000
+.f
+ mexit
+.g
+ mnote "Missing closing '}'",16
+ mend
+ macro
+&l ~lda &op
+ lclc &c
+&c amid "&op",1,1
+ aif "&c"<>"{",.b
+&c amid "&op",l:&op,1
+ aif "&c"="}",.a
+ mnote "Missing closing '}'",2
+&op setc &op}
+.a
+&op amid "&op",2,l:&op-2
+&op setc (&op)
+.b
+&l lda &op
+ mend
+ macro
+&l ~lda.h &op
+&l anop
+ lclc &c
+&c amid "&op",1,1
+ aif "&c"="[",.b
+ aif "&c"<>"{",.d
+&c amid "&op",l:&op,1
+ aif "&c"="}",.a
+ mnote "Missing closing '}'",2
+&op setc &op}
+.a
+&op amid "&op",2,l:&op-2
+&op setc (&op)
+.b
+ aif &yistwo,.c
+&yistwo setb 1
+ ldy #2
+.c
+&op setc "&op,y"
+ lda &op
+ mexit
+.d
+ aif "&c"<>"#",.e
+&op amid "&op",2,l:&op-1
+&op setc "#^&op"
+ lda &op
+ mexit
+.e
+ lda 2+&op
+ mend
+ macro
+&l ~op &opc,&op
+ lclc &c
+&c amid "&op",1,1
+ aif "&c"<>"{",.b
+&c amid "&op",l:&op,1
+ aif "&c"="}",.a
+ mnote "Missing closing '}'",2
+&op setc &op}
+.a
+&op amid "&op",2,l:&op-2
+&op setc (&op)
+.b
+&l &opc &op
+ mend
+ macro
+&l ~op.h &opc,&op
+&l anop
+ lclc &c
+&c amid "&op",1,1
+ aif "&c"="[",.b
+ aif "&c"<>"{",.d
+&c amid "&op",l:&op,1
+ aif "&c"="}",.a
+ mnote "Missing closing '}'",2
+&op setc &op}
+.a
+&op amid "&op",2,l:&op-2
+&op setc (&op)
+.b
+ aif &yistwo,.c
+&yistwo setb 1
+ ldy #2
+.c
+&op setc "&op,y"
+ &opc &op
+ mexit
+.d
+ aif "&c"<>"#",.e
+&op amid "&op",2,l:&op-1
+&op setc "#^&op"
+ &opc &op
+ mexit
+.e
+ &opc 2+&op
+ mend
+ macro
+&l ~pusha &n1
+ lclc &c
+&l anop
+&c amid &n1,1,1
+ aif "&c"<>"{",.b
+&c amid &n1,l:&n1,1
+ aif "&c"<>"}",.g
+&n1 amid &n1,2,l:&n1-2
+ sep #$20
+ longa off
+ lda #0
+ pha
+ rep #$20
+ longa on
+ phk
+ lda &n1
+ pha
+ mexit
+.b
+ aif "&c"<>"[",.c
+&n1 amid &n1,2,l:&n1-2
+ lda &n1+2
+ pha
+ lda &n1
+ pha
+ mexit
+.c
+ pea +(&n1)|-16
+ pea &n1
+ mexit
+.g
+ mnote "Missing closing '}'",16
+ mend
+ macro
+&l ~restm
+&l anop
+ aif (&~la+&~li)=2,.i
+ sep #32*(.not.&~la)+16*(.not.&~li)
+ aif &~la,.h
+ longa off
+.h
+ aif &~li,.i
+ longi off
+.i
+ mend
+ macro
+&l ~setm
+&l anop
+ aif c:&~la,.b
+ gblb &~la
+ gblb &~li
+.b
+&~la setb s:longa
+&~li setb s:longi
+ aif s:longa.and.s:longi,.a
+ rep #32*(.not.&~la)+16*(.not.&~li)
+ longa on
+ longi on
+.a
+ mend
+ macro
+&l ~sta &op
+ lclc &c
+&c amid "&op",1,1
+ aif "&c"<>"{",.b
+&c amid "&op",l:&op,1
+ aif "&c"="}",.a
+ mnote "Missing closing '}'",2
+&op setc &op}
+.a
+&op amid "&op",2,l:&op-2
+&op setc (&op)
+.b
+&l sta &op
+ mend
+ macro
+&l ~sta.h &op
+&l anop
+ lclc &c
+&c amid "&op",1,1
+ aif "&c"="[",.b
+ aif "&c"<>"{",.d
+&c amid "&op",l:&op,1
+ aif "&c"="}",.a
+ mnote "Missing closing '}'",2
+&op setc &op}
+.a
+&op amid "&op",2,l:&op-2
+&op setc (&op)
+.b
+ aif &yistwo,.c
+&yistwo setb 1
+ ldy #2
+.c
+&op setc "&op,y"
+ sta &op
+ mexit
+.d
+ sta 2+&op
+ mend

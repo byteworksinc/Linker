@@ -1,1 +1,62 @@
-;;  Global constants;OBJ	gequ	$B1	object fileLIB	gequ	$B2	library fileEXE	gequ	$B5	executable file;;  direct page map;r0	gequ	$0	general purpose registersr1	gequ	$1r2	gequ	$2r3	gequ	$3r4	gequ	$4r5	gequ	$5r6	gequ	$6r7	gequ	$7r8	gequ	$8r9	gequ	$9r10	gequ	$Ar11	gequ	$Br12	gequ	$Cr13	gequ	$Dr14	gequ	$Er15	gequ	$Fr16	gequ	$10r17	gequ	$11r18	gequ	$12r19	gequ	$13slist	gequ	$14	list of input nameskname	gequ	$18	output file name (nil for none)sdisp	gequ	$1C	disp to next char in slistfname	gequ	$1E	ptr to current input file namebasename gequ	$22	ptr to root file nameseg	gequ	$26	pointer to the first byte in the segmentsp	gequ	$2A	pointer to the next byte to processlen	gequ	$2E	# bytes left in the current filepc	gequ	$32	program counterdictionary gequ $36	current library dictionary bufferlibSymbols gequ $3A	ptr to first library symbollibNames gequ	$3E	ptr to first library namedidLibSegment gequ $42	library segment processed flaglibDisp	gequ	$44	disp in the file being processedlibLength gequ $48	length of the library symbol tableop	gequ	$4C	output buffer pointeropst	gequ	$50	op at start of last lConstdp	gequ	$54	dictionary pointerdictSize gequ	$58	remaining size of dictionarydy	gequ	$5A	ptr to next byte in the dynamic segmentexpStart gequ	$5E	start of express segmentexpOffset gequ $62	offset table in express segmentexpMap	gequ	$66	segment map in express segmentexpHeader gequ $6A	header table in express segmentfMark	gequ	$6E	file mark for express segment!		$52	next available spot
+;
+;  Global constants
+;
+OBJ	gequ	$B1	object file
+LIB	gequ	$B2	library file
+EXE	gequ	$B5	executable file
+;
+;  direct page map
+;
+r0	gequ	$0	general purpose registers
+r1	gequ	$1
+r2	gequ	$2
+r3	gequ	$3
+r4	gequ	$4
+r5	gequ	$5
+r6	gequ	$6
+r7	gequ	$7
+r8	gequ	$8
+r9	gequ	$9
+r10	gequ	$A
+r11	gequ	$B
+r12	gequ	$C
+r13	gequ	$D
+r14	gequ	$E
+r15	gequ	$F
+r16	gequ	$10
+r17	gequ	$11
+r18	gequ	$12
+r19	gequ	$13
+
+slist	gequ	$14	list of input names
+kname	gequ	$18	output file name (nil for none)
+sdisp	gequ	$1C	disp to next char in slist
+fname	gequ	$1E	ptr to current input file name
+basename gequ	$22	ptr to root file name
+
+seg	gequ	$26	pointer to the first byte in the segment
+sp	gequ	$2A	pointer to the next byte to process
+len	gequ	$2E	# bytes left in the current file
+pc	gequ	$32	program counter
+
+dictionary gequ $36	current library dictionary buffer
+libSymbols gequ $3A	ptr to first library symbol
+libNames gequ	$3E	ptr to first library name
+didLibSegment gequ $42	library segment processed flag
+libDisp	gequ	$44	disp in the file being processed
+libLength gequ $48	length of the library symbol table
+
+op	gequ	$4C	output buffer pointer
+opst	gequ	$50	op at start of last lConst
+dp	gequ	$54	dictionary pointer
+dictSize gequ	$58	remaining size of dictionary
+
+dy	gequ	$5A	ptr to next byte in the dynamic segment
+
+expStart gequ	$5E	start of express segment
+expOffset gequ $62	offset table in express segment
+expMap	gequ	$66	segment map in express segment
+expHeader gequ $6A	header table in express segment
+fMark	gequ	$6E	file mark for express segment
+
+!		$52	next available spot
