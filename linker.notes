@@ -1,7 +1,11 @@
-ORCA/Linker 2.0.3
+ORCA/Linker 2.0.4
 Copyright 1996, Byte Works Inc.
 
 -- Change List --------------------------------------------------------------
+
+2.0.4       1.	Fixed bugs that could cause spurious errors to be reported.
+
+		(Stephen Heumann)
 
 2.0.3       1.	Fixed bug that caused programs with more than one dynamic
 		segment to link improperly.
