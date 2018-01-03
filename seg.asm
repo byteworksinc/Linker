@@ -161,7 +161,7 @@ giFiletype ds	2
 FindSuffix private
 	using SegCommon
 
-	lda	#'A'	set the initial suffix
+	lda	#'a'	set the initial suffix
 	sta	lsuffix
 lb1	lda	lsuffix	try it out
 	sta	suffix
@@ -174,7 +174,7 @@ lb1	lda	lsuffix	try it out
 	bra	lb1
 
 lb2	lda	lsuffix	use the last one - it worked (or did
-	dec	A	 not exist, as in 'A'-1)
+	dec	A	 not exist, as in 'a'-1)
 	sta	suffix
 	rts
 
@@ -304,8 +304,8 @@ InitPass start
 KeepName private
 	using SegCommon
 
-	lda	suffix	if suffix = 'A'-1 then
-	cmp	#'A'-1
+	lda	suffix	if suffix = 'a'-1 then
+	cmp	#'a'-1
 	bne	kn0
 	clc		  return false
 	rts
@@ -1053,14 +1053,14 @@ blankSeg dc	10c' '	default load segment name
 
 ****************************************************************
 *
-*  RootName - Append .ROOT to file name
+*  RootName - Append .root to file name
 *
 *  inputs:
 *	basename - base file name
 *
 *  outputs:
 *	ckname - current keep file name
-*	tkname - .ROOT appended to contents of kname
+*	tkname - .root appended to contents of kname
 *	kltr - suffix letter for the main obj file
 *
 ****************************************************************
@@ -1101,5 +1101,5 @@ kn1	lda	root,X
 	long	M
 	rts
 
-root	dc	c'.ROOT'
+root	dc	c'.root'
 	end
