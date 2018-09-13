@@ -2221,7 +2221,7 @@ NamedVariable private
 	bne	lb3	  return false
 	lda	#nameEnd-name-3	index into the name array
 	sta	r4
-	lda	#$BA	initial file number
+	lda	#$BD	initial file number
 	sta	r6
 lb1	ldx	r4	check for match
 	ldy	#2
@@ -2263,6 +2263,9 @@ name	dc	c'S16'	file type mnemonics
 	dc	c'NDA'
 	dc	c'CDA'
 	dc	c'TOL'
+	dc	c'DVR'
+	dc	c'LDF'
+	dc	c'FST'
 nameEnd	anop
 	end
 
