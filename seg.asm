@@ -336,7 +336,18 @@ kn1	lda	#'.'
 	iny
 	lda	suffix
 	sta	[fname],Y
-	dec	suffix	--suffix
+	long	M
+	phy
+	ph4	fname	if not exists(fname) then
+	jsr	ExistsM
+	ply
+	tax	
+	short	M
+	bne	kn2
+	lda	suffix	  uppercase suffix
+	and	#$DF
+	sta	[fname],Y
+kn2	dec	suffix	--suffix
 	long	M
 	sec
 	rts
@@ -1091,15 +1102,32 @@ RootName private
 	iny
 	iny
 	ldx	#0
+	phy
 	short M
-kn1	lda	root,X
+rn1	lda	root,X
 	sta	[fname],Y
 	iny
 	inx
 	cpx	#l:root
-	bne	kn1
+	bne	rn1
 	long	M
-	rts
+	ph4	fname	if not exists(fname) then
+	jsr	ExistsM
+	ply
+	tax
+	bne	ret
+	short	M
+	ldx	#1
+	iny
+rn2	lda	root,X	  uppercase suffix
+	and	#$DF
+	sta	[fname],Y
+	iny
+	inx
+	cpx	#l:root
+	bne	rn2
+	long	M
+ret	rts
 
 root	dc	c'.root'
 	end
