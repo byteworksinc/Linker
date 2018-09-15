@@ -1,7 +1,17 @@
-ORCA/Linker 2.0.4
+ORCA/Linker 2.0.5
 Copyright 1996, Byte Works Inc.
+Updated 2018
 
 -- Change List --------------------------------------------------------------
+
+2.0.5       1.	On case-sensitive filesystems (which are not normally used
+		natively on the Apple IIGS, but may be used through emulation
+		tools or network file servers), the linker can now find object
+		files with either upper-case or lower-case file extensions.
+
+		(Kelvin Sherlock, Stephen Heumann)
+
+	    2.	KeepType values of "DVR", "LDF", and "FST" are now accepted.
 
 2.0.4       1.	Fixed bugs that could cause spurious errors to be reported.
 
