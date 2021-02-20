@@ -1385,7 +1385,7 @@ lb2	lda	t1,X
 	blt	lb2
 	lda	t1-1,Y
 	bpl	lb6
-	bra	lb5
+	bra	lb4a
 lb3	lda	#$FF
 lb4	cmp	t1,X
 	bne	lb5
@@ -1394,6 +1394,9 @@ lb4	cmp	t1,X
 	blt	lb4
 	lda	t1-1,Y
 	bmi	lb6
+lb4a	lda	expLength	let BRL wrap around within program bank
+	cmp	#2
+	bge	lb6
 lb5	long	I,M
 	ph4	#0
 	ph2	#11
