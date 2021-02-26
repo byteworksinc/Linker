@@ -8,6 +8,10 @@
 *
 ****************************************************************
 *
+*  Linker 2.0.6 prepared Feb 21 by Stephen Heumann
+*
+****************************************************************
+*
 *  Linker 2.0.5 prepared Sep 18 by Stephen Heumann
 *
 ****************************************************************
@@ -294,7 +298,7 @@ sf8	anop
 ;
 	lda	progress
 	beq	wh1
-	puts	#'Link Editor 2.0.5',cr=t
+	puts	#'Link Editor 2.0.6',cr=t
 	putcr
 wh1	anop
 ;
