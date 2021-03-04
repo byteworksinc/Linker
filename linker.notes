@@ -11,14 +11,16 @@ Updated 2021
 		can branch forward or backward by up to 64 KB (to any location
 		in the program bank), and the linker now allows this.
 		
-	    2.	The linker can now link together multiple object segments with
-		different alignment requirements into a single load segment,
-		regardless of the order of the object segments.  The alignment
-		of the load segment will be the most restrictive alignment
-		of any of the object segments, and the alignment requirements
-		of each object segment will be obeyed.  (Previously, an error
-		would be produced if an object segment processed later had a
-		more restrictive alignment requirement than an earlier one.)
+	    2.	Fixed several problems related to alignment.  Previously,
+		the linker both reported spurious errors about alignment in
+		certain cases and failed to detect errors in other cases.
+		With these fixes, a segment alignment of $10000 is now
+		permitted.  Also, the linker can now link together multiple
+		object segments with different alignment requirements into a
+		single load segment, regardless of the order of the object
+		segments.  The alignment of the load segment will be the most
+		restrictive alignment of any of the object segments, and the
+		alignment requirements of each object segment will be obeyed.
 
 2.0.5       1.	On case-sensitive filesystems (which are not normally used
 		natively on the Apple IIGS, but may be used through emulation
