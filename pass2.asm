@@ -26,6 +26,7 @@
 ****************************************************************
 *
 Align	private
+	using Common
 
 	ldy	#1	get the alignment factor
 	lda	[sp],Y
@@ -34,7 +35,12 @@ Align	private
 	iny
 	lda	[sp],Y
 	sta	r2
-	add4	sp,#5	skip the alignment opcode and operand
+	cmpl	segAlign,r0	if alignment factor > segAlign
+	bge	lb1
+	ph4	#0	  Error(NULL,22)
+	ph2	#22
+	jsr	Error
+lb1	add4	sp,#5	skip the alignment opcode and operand
 	jsr	DefineAlign	do the align
 	rts
 	end

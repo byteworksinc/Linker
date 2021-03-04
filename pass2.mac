@@ -608,3 +608,12 @@
 .d
  sta 2+&op
  mend
+ macro
+&lab cmpl &n1,&n2
+&lab lda 2+&n1
+ cmp 2+&n2
+ bne ~&syscnt
+ lda &n1
+ cmp &n2
+~&syscnt anop
+ mend
