@@ -626,3 +626,15 @@
 &lab ldx #$0902
  jsl $E10000
  MEND
+ macro
+&l cmpl &n1,&n2
+ lclb &yistwo
+&l ~setm
+ ~lda.h &n1
+ ~op.h cmp,&n2
+ bne ~a&SYSCNT
+ ~lda &n1
+ ~op cmp,&n2
+~a&SYSCNT anop
+ ~restm
+ mend

@@ -24,8 +24,14 @@ count	equ	1	bit count
 
 	sub	(4:align),2
 
-	stz	count	count the bits
-	ldx	#16
+	cmpl	align,#$10001	if align > $10000 then
+	blt	lb0
+	ph4	#0	  flag the error (alignment too large)
+	ph2	#25
+	jsr	Error
+	
+lb0	stz	count	count the bits
+	ldx	#32
 lb1	lsr	align+2
 	ror	align
 	bcc	lb2
@@ -124,6 +130,7 @@ erLev	dc	I1'8,16,16,2'
 	dc	I1'4,16,2,8'
 	dc	I1'8,4,4,8'
 	dc	I1'8,8,8,8'
+	dc	I1'8'
 
 erAdr	dc	a'er1-1'
 	dc	a'er2-1'
@@ -149,6 +156,7 @@ erAdr	dc	a'er1-1'
 	dc	a'er22-1'
 	dc	a'er23-1'
 	dc	a'er24-1'
+	dc	a'er25-1'
 
 er1	dw	'Duplicate label'
 er2	dw	'Illegal shift operator'
@@ -172,6 +180,7 @@ er21	dw	'Alignment and ORG conflict'
 er22	dw	'Alignment factor must not exceed segment align factor'
 er23	dw	'Alignment factor must be a power of two'
 er24	dw	'Expression operand is not in same segment'
+er25	dw	'Alignment factor is too large'
 	end
 
 ****************************************************************
