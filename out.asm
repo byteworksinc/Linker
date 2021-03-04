@@ -385,10 +385,13 @@ or4	anop
 	ora	loadAlign+2
 	bne	la1
 	move4 segAlign,loadAlign	  loadAlign = segAlign
-	bra	la2	else
-la1	move4 segAlign,r0	  PrepareAlign(segAlign)
+	bra	la3	else
+la1	cmpl	loadAlign,segAlign	  if loadAlign < segAlign then
+	bge	la2
+	move4	segAlign,loadAlign	    loadAlign = segAlign
+la2	move4 segAlign,r0	  PrepareAlign(segAlign)
 	jsr	PrepareAlign
-la2	anop		endif
+la3	anop		endif
 	bra	sa4
 ;
 ;  Set the load segment alignment (pass 2)
@@ -408,13 +411,9 @@ sa0	lda	segAlign	skip if alignment is 0
 	bra	sa3	else
 sa1	cmpl	loadAlign,segAlign	  if loadAlign < segAlign then
 	bge	sa2
-	ph4	#0	    Error(NULL,22)
-	ph2	#22
-	jsr	Error
-	bra	sa3	  else
-sa2	move4 segAlign,r0	    DefineAlign(segAlign)
+	move4	segAlign,loadAlign	    loadAlign = segAlign
+sa2	move4 segAlign,r0	  DefineAlign(segAlign)
 	jsr	DefineAlign
-!	anop		  endif
 sa3	anop		endif
 	jsr	CheckAlignOrg	check for conflicts between align,org
 sa4	anop
