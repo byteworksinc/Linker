@@ -14,47 +14,47 @@ end
 
 if {#} == 0 then
 
-   Newer obj/linker.a linker.asm linker.macros directPage
+   Newer obj/linker.a linker.asm linker.mac directPage
    if {Status} != 0
       set linker linker
    end
 
-   Newer obj/util.a util.asm util.macros directPage
+   Newer obj/util.a util.asm util.mac directPage
    if {Status} != 0
       set util util
    end
 
-   Newer obj/file.a file.asm file.macros directPage
+   Newer obj/file.a file.asm file.mac directPage
    if {Status} != 0
       set file file
    end
 
-   Newer obj/pass1.a pass1.asm pass1.macros directPage
+   Newer obj/pass1.a pass1.asm pass1.mac directPage
    if {Status} != 0
       set pass1 pass1
    end
 
-   Newer obj/pass2.a pass2.asm pass2.macros directPage
+   Newer obj/pass2.a pass2.asm pass2.mac directPage
    if {Status} != 0
       set pass2 pass2
    end
 
-   Newer obj/seg.a seg.asm seg.macros directPage
+   Newer obj/seg.a seg.asm seg.mac directPage
    if {Status} != 0
       set seg seg
    end
 
-   Newer obj/symbol.a symbol.asm symbol.macros directPage
+   Newer obj/symbol.a symbol.asm symbol.mac directPage
    if {Status} != 0
       set symbol symbol
    end
 
-   Newer obj/exp.a exp.asm exp.macros directPage
+   Newer obj/exp.a exp.asm exp.mac directPage
    if {Status} != 0
       set exp exp
    end
 
-   Newer obj/out.a out.asm out.2 out.macros directPage
+   Newer obj/out.a out.asm out.mac directPage
    if {Status} != 0
       set out out
    end
