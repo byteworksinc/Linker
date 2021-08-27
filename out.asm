@@ -2495,6 +2495,7 @@ lb2	add4	length,loadPC	update the length of the program
 	beq	lb2a
 	cmpl	loadPC,loadBanksize
 	blt	lb2a
+	beq	lb2a
 	ph4	#0
 	ph2	#18
 	jsr	Error

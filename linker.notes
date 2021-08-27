@@ -22,6 +22,9 @@ Updated 2021
 		restrictive alignment of any of the object segments, and the
 		alignment requirements of each object segment will be obeyed.
 
+	    3.	A spurious error is no longer reported for code segments that
+		are exactly $10000 bytes long (the full size of a bank).
+
 2.0.5       1.	On case-sensitive filesystems (which are not normally used
 		natively on the Apple IIGS, but may be used through emulation
 		tools or network file servers), the linker can now find object
