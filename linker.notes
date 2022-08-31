@@ -1,8 +1,11 @@
-ORCA/Linker 2.0.6
+ORCA/Linker 2.1.0 B1
 Copyright 1996, Byte Works Inc.
-Updated 2021
+Updated 2022
 
 -- Change List --------------------------------------------------------------
+
+2.1.0 B1    1.  The linker can now automatically divide a large program into
+		segments.  See "Auto-Segmentation," below.
 
 2.0.6       1.	The linker could give a spurious error about the relative
 		address calculation for a BRL instruction if it branched
@@ -61,3 +64,21 @@ Updated 2021
 -- Documentation Update -----------------------------------------------------
 
 No changes.
+
+-- Changes introduced in ORCA/Linker 2.1.0 ----------------------------------
+
+Auto-Segmentation
+-----------------
+
+On the Apple IIGS, programs with more than 64 KB of code have to be divided into multiple load segments.  This can be done using the segment directives in the various ORCA languages, but the programmer has to manually manage them, working out how much code would fit in each segment.  Changes to a program's code or its compilation options (e.g. debugging or optimization settings) could alter the size of the generated machine code, requiring its segmentation to be changed.
+
+The ORCA linker can now automatically assign code to load segments, avoiding the need to manually change the segmentation based on the code size.  If code uses the special load segment name AUTOSEG~~~, the linker will automatically place it into load segments named AUTOSEG~00, AUTOSEG~01, etc., creating as many load segments as necessary to fit the code.
+
+To use this feature in ORCA/C, ORCA/Pascal, or ORCA/Modula-2, simply use those languages' segment directives to specify the load segment name as AUTOSEG~~~ :
+
+   segment "AUTOSEG~~~";                (in ORCA/C)
+   (*$Segment 'AUTOSEG~~~'*)            (in ORCA/Pascal or ORCA/Modula-2)
+
+You can place a directive like this at the top of each of your source files or (for ORCA/C) in a pre-include file.
+
+It is also possible to use auto-segmentation for assembly code, but the code must be written to account for the fact that any two program segments using auto-segmentation may wind up in different load segments, and therefore might be placed in different banks at run time.

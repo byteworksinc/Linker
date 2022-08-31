@@ -24,6 +24,102 @@ isLibrary ds	2	is the file we are processing a library file?
 largeLibFile ds 2	largest library file number
 libDisp	ds	4	disp in library symbol table
 suffix	ds	2	suffix letter
+
+autoSegCounter ds 2	auto-segmentation counter (hex string)
+autoSegLength ds 4	length of current auto segment
+autoSegNamePtr ds 4	pointer to current auto-segment name
+	end
+
+****************************************************************
+*
+*  AutoSegment - perform auto-segmentation
+*
+*  inputs:
+*	loadNamePtr - load segment name
+*	segLength - # of bytes of code in the segment
+*	segAlign - segment alignment factor
+*
+*  outputs:
+*	loadNamePtr - modified if using auto-segmentation
+*
+****************************************************************
+*
+AutoSegment start
+	using SegCommon
+	using Common
+	using OutCommon
+
+	move4 loadNamePtr,r0	if load seg name is not 'AUTOSEG~~~'
+	ldy	#nameSize-2
+lb0	lda	[r0],Y
+	cmp	autoSegStr,Y
+	beq	lb0a
+	rts		  return
+lb0a	dey
+	dey
+	bpl	lb0
+
+	lda	segAlign	perform alignment if necessary
+	bne	lb1
+	lda	segAlign+2
+	beq	lb2
+	lda	#0
+lb1	dec	a
+	bit	autoSegLength
+	beq	lb2
+	ora	autoSegLength
+	inc	a
+	sta	autoSegLength
+	bne	lb2
+	inc	autoSegLength+2
+
+lb2	add4	autoSegLength,segLength	update auto seg length
+	lda	autoSegLength+2	if it is over $10000 bytes
+	beq	lb5
+	dec	a
+	ora	autoSegLength
+	beq	lb5
+	move4 segLength,autoSegLength	  set length to seg length
+
+	short M	  update auto-seg counter
+	lda	autoSegCounter+1
+	inc	a
+	cmp	#'9'+1
+	bne	lb3
+	lda	#'A'
+lb3	cmp	#'F'+1
+	bne	lb3b
+	lda	autoSegCounter
+	inc	a
+	cmp	#'9'+1
+	bne	lb3a
+	lda	#'A'
+lb3a	sta	autoSegCounter
+	lda	#'0'
+lb3b	sta	autoSegCounter+1
+	long M
+
+	ph4	#nameSize	  make new auto-seg name string
+	jsr	MLalloc
+	sta	r4
+	sta	autoSegNamePtr
+	stx	r4+2
+	stx	autoSegNamePtr+2
+	ldy	#nameSize-2
+	lda	autoSegCounter
+	bra	lb4a
+lb4	lda	autoSegStr,Y
+lb4a	sta	[r4],Y
+	dey
+	dey
+	bpl	lb4
+!			set load seg name to auto-seg name
+lb5	move4 autoSegNamePtr,loadNamePtr
+	rts
+;
+;  Local constant
+;
+autoSegStr dc c'AUTOSEG~~~'
 	end
 
 ****************************************************************
@@ -283,7 +379,17 @@ InitPass start
 	stz	lastFileNumber
 	stz	dataNumber	no data areas processed
 	stz	lastDataNumber
+
+	lda	#'00'	initial auto-seg is 'AUTOSEG~00'
+	sta	autoSegCounter
+	lla	autoSegNamePtr,initialAutoSegName
+	stz	autoSegLength	initial auto-seg length is 0
+	stz	autoSegLength+2
 	rts
+;
+;  Local constant
+;
+initialAutoSegName dc c'AUTOSEG~00'
 	end
 
 ****************************************************************
@@ -876,6 +982,7 @@ vt0	ldy	#version	get the segment version number
 	sta	segName+2
 	move4 segName,loadNamePtr
 	add4	segName,#10
+	jsr	AutoSegment
 	jsr	FindLoadSegment
 	ldy	#s2numsex	verify that numsex = 0
 	lda	[seg],Y
@@ -966,6 +1073,7 @@ vo1	cmp	#1	branch if not version 1
 	sta	segName+2
 	move4 segName,loadNamePtr
 	add4	segName,#10
+	jsr	AutoSegment
 	jsr	FindLoadSegment
 	ldy	#s1numsex	verify that numsex = 0
 	lda	[seg],Y

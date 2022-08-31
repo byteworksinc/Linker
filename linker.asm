@@ -298,7 +298,7 @@ sf8	anop
 ;
 	lda	progress
 	beq	wh1
-	puts	#'Link Editor 2.0.6',cr=t
+	puts	#'Link Editor 2.1.0 B1',cr=t
 	putcr
 wh1	anop
 ;
