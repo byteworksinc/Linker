@@ -268,7 +268,7 @@ st1	lda	segType	  or in the or flags
 	sta	loadType
 	lda	segType	  mask out missing and flags
 	and	#$E200
-	ora	#$3DFF
+	ora	#$1DFF
 	and	loadType
 	sta	loadType
 	lda	loadType	  get the type without flags

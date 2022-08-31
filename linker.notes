@@ -7,6 +7,9 @@ Updated 2022
 2.1.0 B1    1.  The linker can now automatically divide a large program into
 		segments.  See "Auto-Segmentation," below.
 
+	    2.	A load segment is now flagged as position-independent only if
+		all the constituent object segments have that attribute set.
+
 2.0.6       1.	The linker could give a spurious error about the relative
 		address calculation for a BRL instruction if it branched
 		forward or backward more than 32 KB.  Since the address
