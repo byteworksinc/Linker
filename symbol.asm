@@ -859,17 +859,13 @@ sv1	ldy	#symExp	if the value is an expression then
 	jsr	Evaluate
 	sta	symbolValue	  save the value
 	stx	symbolValue+2
-	lda	shiftFlag	  if the value is shifted then
-	beq	sv1a
-	ph4	name	    flag the error
-	ph2	#2
-	jsr	Error
 sv1a	lda	symbolRelocatable	  if the symbol is relocatable then
 	beq	sv1c
-	jsr	CheckSegment	    check for errors
-	ldy	#symSeg	    set the expression file
-	lda	[sym],Y
-	sta	expSegment
+	lda	shiftFlag	    if the value is shifted then
+	beq	sv1c
+	ph4	name	      flag the error
+	ph2	#2
+	jsr	Error
 sv1c	pl4	shiftValue	  restore volatile variables
 	pl2	shiftFlag
 	pl4	shiftCount
