@@ -10,6 +10,9 @@ Updated 2022
 	    2.	A load segment is now flagged as position-independent only if
 		all the constituent object segments have that attribute set.
 
+	    3.	Fixed bug that caused EQU or GEQU expressions with non-constant
+		operands to be evaluated incorrectly.
+
 2.0.6       1.	The linker could give a spurious error about the relative
 		address calculation for a BRL instruction if it branched
 		forward or backward more than 32 KB.  Since the address

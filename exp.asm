@@ -727,6 +727,7 @@ addr	dc	a'EndExp'	$00		End
 *	shiftFlag - 1 if the value is shifted, else 0
 *	shiftValue - expression result before shifting
 *	shiftCount - shift counter
+*	symbolRelocatable - non-zero if sym is relocatable
 *	returns the value of the expression
 *
 ****************************************************************

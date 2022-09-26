@@ -845,15 +845,10 @@ gb3	ldy	#symPriv	if sym^.symPriv then
 sv1	ldy	#symExp	if the value is an expression then
 	lda	[sym],Y
 	jeq	sv2
-	ph2	copiedExpression	  save volitile variables
+	ph2	copiedExpression	  save volatile variables
 	ph4	shiftCount
 	ph2	shiftFlag
 	ph4	shiftValue
-	ph2	symbolCount
-	ph2	symbolLength
-	ph2	symbolRelocatable
-	ph2	symbolType
-	ph4	symbolValue
 	ldy	#symVal+2	  evaluate the expression
 	lda	[sym],Y
 	pha
@@ -875,12 +870,7 @@ sv1a	lda	symbolRelocatable	  if the symbol is relocatable then
 	ldy	#symSeg	    set the expression file
 	lda	[sym],Y
 	sta	expSegment
-sv1c	pl4	symbolValue	  restore volitile variables
-	pl2	symbolType
-	pl2	symbolRelocatable
-	pl2	symbolLength
-	pl2	symbolCount
-	pl4	shiftValue
+sv1c	pl4	shiftValue	  restore volatile variables
 	pl2	shiftFlag
 	pl4	shiftCount
 	pl2	copiedExpression
