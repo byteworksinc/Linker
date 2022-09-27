@@ -13,6 +13,11 @@ Updated 2022
 	    3.	Fixed bug that caused EQU or GEQU expressions with non-constant
 		operands to be evaluated incorrectly.
 
+	    4.	The numeric value in an ORG record is now treated as a signed
+		offset from the current location, consistent with its
+		definition in the GS/OS Reference.  However, negative offset
+		values are not supported and will produce an error.
+
 2.0.6       1.	The linker could give a spurious error about the relative
 		address calculation for a BRL instruction if it branched
 		forward or backward more than 32 KB.  Since the address
@@ -69,7 +74,9 @@ Updated 2022
 
 -- Documentation Update -----------------------------------------------------
 
-No changes.
+ORCA/M Manual, p. 492
+
+The operand in an ORG record is a signed offset from the current location, not an absolute address.  (This is consistent with the definition in the GS/OS Reference, and with the behavior of ORCA/M and other assemblers and linkers.)
 
 -- Changes introduced in ORCA/Linker 2.1.0 ----------------------------------
 

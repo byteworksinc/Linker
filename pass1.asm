@@ -137,13 +137,12 @@ DoOrg	private
 	sta	r0
 	ldy	#3
 	lda	[sp],Y
-	sta	r2+2
+	sta	r2
 	add4	sp,#5
 
-	sub4	r0,loadOrg	get the disp from the segment start
-	cmpl	pc,r0
-	bge	lb1	if the disp is greater than the pc then
-	move4 r0,pc	  update the pc
+	lda	r2
+	bmi	lb1	if the disp is positive
+	add4	pc,r0	  update the pc
 lb1	anop
 	rts
 	end

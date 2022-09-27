@@ -643,13 +643,12 @@ DoOrg	private
 
 	ldy	#1	get the value
 	lda	[sp],Y
-	sta	r4
+	sta	r0
 	ldy	#3
 	lda	[sp],Y
-	sta	r6
+	sta	r2
 	add4	sp,#5	skip the op code & operand
-	sub4	pc,r4,r0	calculate the space to insert
-	lda	r2	if space < 0 then
+	lda	r2	if disp < 0 then
 	bpl	lb1
 	ph4	#0	  Error(NULL,3)
 	ph2	#3
