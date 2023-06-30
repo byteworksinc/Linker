@@ -1,10 +1,10 @@
-ORCA/Linker 2.1.0 B1
+ORCA/Linker 2.1.0
 Copyright 1996, Byte Works Inc.
-Updated 2022
+Updated 2023
 
 -- Change List --------------------------------------------------------------
 
-2.1.0 B1    1.  The linker can now automatically divide a large program into
+2.1.0       1.  The linker can now automatically divide a large program into
 		segments.  See "Auto-Segmentation," below.
 
 	    2.	A load segment is now flagged as position-independent only if
