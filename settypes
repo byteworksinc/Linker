@@ -1,0 +1,16 @@
+filetype -p =.asm src; change -p =.asm asm65816
+filetype -p =.mac src; change -p =.mac asm65816
+filetype directpage src; change directpage asm65816
+filetype smac src; change smac asm65816
+filetype linker.rez src; change linker.rez rez
+filetype backup src; change backup exec
+filetype count src; change count exec
+filetype linkit src; change linkit exec
+filetype make src; change make exec
+filetype settypes src; change settypes exec
+filetype build.ninja txt
+filetype GNUmakefile txt
+filetype LICENSE txt
+filetype linker.notes txt
+filetype README.md txt
+filetype obj:README.txt txt
